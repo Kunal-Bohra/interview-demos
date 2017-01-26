@@ -14,10 +14,10 @@ public interface IStatService {
      *
      * @return - a list of CountryDemographics object.
      */
-    List<CountryDemographics> GetCountryPopulations();
+    List<CountryDemographics> getCountryPopulations();
 
     /**
-     * Consumes two lists of CountryDemographics objects and returns an unordered list of countries and their
+     * Consumes two lists of CountryDemographics objects and returns an list of countries and their
      * populations in the form of a CountryDemographics object. This list is a merged list not containing duplicate
      * country name values
      *

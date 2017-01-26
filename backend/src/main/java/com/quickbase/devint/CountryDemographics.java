@@ -1,6 +1,8 @@
 package com.quickbase.devint;
 
 
+import com.sun.istack.internal.NotNull;
+
 import java.util.Objects;
 
 /**
@@ -8,7 +10,9 @@ import java.util.Objects;
  */
 public final class CountryDemographics {
 
+    @NotNull
     private String countryName;
+    @NotNull
     private Integer population;
 
     private CountryDemographics(final Builder Builder) {

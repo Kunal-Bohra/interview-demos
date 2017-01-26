@@ -28,13 +28,14 @@ public class DBManagerImpl implements DBManager {
      * @return - Connection instance
      */
     public Connection getConnection() {
+
         Connection c = null;
         try {
             Class.forName(driverName);
             c = DriverManager.getConnection(databaseURL);
-            System.out.println("Opened the database connection successfully.");
+            System.out.println("Opened the database connection successfully.\n");
         } catch (ClassNotFoundException cnf) {
-            System.out.println("Could not load the driver class.");
+            System.out.println("Could not load the driver class.\n");
         } catch (SQLException sqle) {
             System.out.println("Sql exception:" + sqle.getStackTrace());
         }
@@ -44,15 +45,14 @@ public class DBManagerImpl implements DBManager {
     /**
      * Returns an unordered list of countries and their populations in the form of a CountryDemographics object
      * from the database.
-     *
+     * @param connection - the database connection
      * @return - a list of CountryDemographics object.
      */
-    public List<CountryDemographics> getCountryPopulation() {
+    public List<CountryDemographics> getCountryPopulation(final Connection connection) {
         List<CountryDemographics> countryPopulationList = new ArrayList<CountryDemographics>();
         Statement statement;
         try {
-            Connection c = getConnection();
-            statement = c.createStatement();
+            statement = connection.createStatement();
             String sql = sumPopulationQuery;
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
@@ -68,7 +68,7 @@ public class DBManagerImpl implements DBManager {
             }
             rs.close();
             statement.close();
-            c.close();
+            connection.close();
         } catch (Exception e) {
             System.out.println("sql exception:" + e.getMessage());
         }

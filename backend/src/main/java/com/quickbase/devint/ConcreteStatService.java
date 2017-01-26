@@ -17,7 +17,7 @@ public class ConcreteStatService implements IStatService {
      * from an API.
      * @return - a list of CountryDemographics object.
      */
-    public List<CountryDemographics> GetCountryPopulations() {
+    public List<CountryDemographics> getCountryPopulations() {
         List<CountryDemographics> output = new ArrayList<CountryDemographics>();
 
         // Pretend this calls a REST API somewhere
@@ -56,7 +56,7 @@ public class ConcreteStatService implements IStatService {
 
     @Override
     /**
-     * Consumes two lists of CountryDemographics objects and returns an unordered list of countries and their
+     * Consumes two lists of CountryDemographics objects and returns a list of countries and their
      * populations in the form of a CountryDemographics object. This list is a merged list not containing duplicate
      * country name values
      *

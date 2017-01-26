@@ -19,7 +19,8 @@ public interface DBManager {
      * Returns an unordered list of countries and their populations in the form of a CountryDemographics object
      * from the database.
      *
+     *  @param connection - the database connection
      * @return - a list of CountryDemographics object.
      */
-    List<CountryDemographics> getCountryPopulation();
+    List<CountryDemographics> getCountryPopulation(final Connection connection);
 }
