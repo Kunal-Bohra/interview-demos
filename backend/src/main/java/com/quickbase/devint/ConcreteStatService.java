@@ -1,50 +1,90 @@
 package com.quickbase.devint;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-
+/**
+ * The ConcreteStatService class contains utility methods to operate on CountryDemographics objects and
+ * return meaningful information to caller methods.
+ */
 public class ConcreteStatService implements IStatService {
 
 	@Override
-	/**
-	 * Returns an unordered list of countries and their populations
-	 */
-	public List<Pair<String, Integer>> GetCountryPopulations() {
-		List<Pair<String, Integer>> output = new ArrayList<Pair<String, Integer>>();
-		
-		// Pretend this calls a REST API somewhere
-		output.add(new ImmutablePair<String, Integer>("India",1182105000));
-		output.add(new ImmutablePair<String, Integer>("United Kingdom",62026962));
-		output.add(new ImmutablePair<String, Integer>("Chile",17094270));
-		output.add(new ImmutablePair<String, Integer>("Mali",15370000));
-		output.add(new ImmutablePair<String, Integer>("Greece",11305118));
-		output.add(new ImmutablePair<String, Integer>("Armenia",3249482));
-		output.add(new ImmutablePair<String, Integer>("Slovenia",2046976));
-		output.add(new ImmutablePair<String, Integer>("Saint Vincent and the Grenadines",109284));
-		output.add(new ImmutablePair<String, Integer>("Bhutan",695822));
-		output.add(new ImmutablePair<String, Integer>("Aruba (Netherlands)",101484));
-		output.add(new ImmutablePair<String, Integer>("Maldives",319738));
-		output.add(new ImmutablePair<String, Integer>("Mayotte (France)",202000));
-		output.add(new ImmutablePair<String, Integer>("Vietnam",86932500));
-		output.add(new ImmutablePair<String, Integer>("Germany",81802257));
-		output.add(new ImmutablePair<String, Integer>("Botswana",2029307));
-		output.add(new ImmutablePair<String, Integer>("Togo",6191155));
-		output.add(new ImmutablePair<String, Integer>("Luxembourg",502066));
-		output.add(new ImmutablePair<String, Integer>("U.S. Virgin Islands (US)",106267));
-		output.add(new ImmutablePair<String, Integer>("Belarus",9480178));
-		output.add(new ImmutablePair<String, Integer>("Myanmar",59780000));
-		output.add(new ImmutablePair<String, Integer>("Mauritania",3217383));
-		output.add(new ImmutablePair<String, Integer>("Malaysia",28334135));
-		output.add(new ImmutablePair<String, Integer>("Dominican Republic",9884371));
-		output.add(new ImmutablePair<String, Integer>("New Caledonia (France)",248000));
-		output.add(new ImmutablePair<String, Integer>("Slovakia",5424925));
-		output.add(new ImmutablePair<String, Integer>("Kyrgyzstan",5418300));
-		output.add(new ImmutablePair<String, Integer>("Lithuania",3329039));
-		output.add(new ImmutablePair<String, Integer>("United States of America",309349689));
+    /**
+     * Returns an unordered list of countries and their populations in the form of a CountryDemographics object
+     * from an API.
+     * @return - a list of CountryDemographics object.
+     */
+    public List<CountryDemographics> GetCountryPopulations() {
+        List<CountryDemographics> output = new ArrayList<CountryDemographics>();
+
+        // Pretend this calls a REST API somewhere
+        output.add(new CountryDemographics.Builder().countryName("India").population(1182105000).build());
+        output.add(new CountryDemographics.Builder().countryName("United Kingdom").population(62026962).build());
+        output.add(new CountryDemographics.Builder().countryName("Chile").population(17094270).build());
+        output.add(new CountryDemographics.Builder().countryName("Mali").population(15370000).build());
+        output.add(new CountryDemographics.Builder().countryName("Greece").population(11305118).build());
+        output.add(new CountryDemographics.Builder().countryName("Armenia").population(3249482).build());
+        output.add(new CountryDemographics.Builder().countryName("Slovenia").population(2046976).build());
+        output.add(new CountryDemographics.Builder().countryName("Bhutan").population(695822).build());
+        output.add(new CountryDemographics.Builder().countryName("Aruba (Netherlands)").population(101484).build());
+        output.add(new CountryDemographics.Builder().countryName("Maldives").population(319738).build());
+        output.add(new CountryDemographics.Builder().countryName("Mayotte (France)").population(202000).build());
+        output.add(new CountryDemographics.Builder().countryName("Vietnam").population(86932500).build());
+        output.add(new CountryDemographics.Builder().countryName("Germany").population(81802257).build());
+        output.add(new CountryDemographics.Builder().countryName("Botswana").population(2029307).build());
+        output.add(new CountryDemographics.Builder().countryName("Togo").population(6191155).build());
+        output.add(new CountryDemographics.Builder().countryName("Luxembourg").population(502066).build());
+        output.add(new CountryDemographics.Builder().countryName("U.S. Virgin Islands (US)").population(106267).build());
+        output.add(new CountryDemographics.Builder().countryName("Belarus").population(9480178).build());
+        output.add(new CountryDemographics.Builder().countryName("Myanmar").population(59780000).build());
+        output.add(new CountryDemographics.Builder().countryName("Mauritania").population(3217383).build());
+        output.add(new CountryDemographics.Builder().countryName("Malaysia").population(28334135).build());
+        output.add(new CountryDemographics.Builder().countryName("Dominican Republic").population(9884371).build());
+        output.add(new CountryDemographics.Builder().countryName("New Caledonia (France)").population(248000).build());
+        output.add(new CountryDemographics.Builder().countryName("Slovakia").population(5424925).build());
+        output.add(new CountryDemographics.Builder().countryName("Kyrgyzstan").population(5418300).build());
+        output.add(new CountryDemographics.Builder().countryName("Lithuania").population(3329039).build());
+        output.add(new CountryDemographics.Builder().countryName("U.S.A.").population(309349689).build());
+        output.add(new CountryDemographics.Builder().countryName("Saint Vincent and the Grenadines").population(109284)
+                .build());
+
 		return output;
 	}
+
+    @Override
+    /**
+     * Consumes two lists of CountryDemographics objects and returns an unordered list of countries and their
+     * populations in the form of a CountryDemographics object. This list is a merged list not containing duplicate
+     * country name values
+     *
+     * @param sourceList
+     * @param destinationList
+     * @return - an unordered list of CountryDemographics objects.
+     */
+    public List<CountryDemographics> mergeLists(List<CountryDemographics> sourceList,
+                                                List<CountryDemographics> destinationList) {
+        List<CountryDemographics> finalCountryPopulationList = new ArrayList<CountryDemographics>();
+
+        // Create a Hashmap to store all values.
+        final Map<String, CountryDemographics> mergedListMap = new HashMap<String, CountryDemographics>();
+
+        // Add the values from source list to the hashmap.
+        for (final CountryDemographics sourceCD : sourceList) {
+            mergedListMap.put(sourceCD.getCountryName().toLowerCase(), sourceCD);
+        }
+
+        // Add the values from destination list to the hashmap. Values with same countryName are overwritten.
+        // Hence, the values from database or destination list are final values stored.
+        for (final CountryDemographics destinationCD : destinationList) {
+            mergedListMap.put(destinationCD.getCountryName().toLowerCase(), destinationCD);
+        }
+
+        // Return a new list of merged CountryDemographics object
+        finalCountryPopulationList = new ArrayList<CountryDemographics>(mergedListMap.values());
+        return finalCountryPopulationList;
+    }
 
 }

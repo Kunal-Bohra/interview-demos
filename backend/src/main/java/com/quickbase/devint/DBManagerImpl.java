@@ -1,28 +1,77 @@
 package com.quickbase.devint;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This DBManager implementation provides a connection to the database containing population data.
+ * This DBManager implementation provides a connection to the SQLite database containing population data.
  *
  * Created by ckeswani on 9/16/15.
  */
 public class DBManagerImpl implements DBManager {
+
+    private static String driverName = "org.sqlite.JDBC";
+    private static String databaseURL = "jdbc:sqlite:resources/data/citystatecountry.db";
+    private static String sumPopulationQuery = "SELECT\n" +
+            "  Country.CountryName,\n" +
+            "  SUM(City.Population) AS population\n" +
+            "FROM City\n" +
+            "  INNER JOIN State ON City.StateId = State.StateId\n" +
+            "  INNER JOIN Country ON State.CountryId = Country.CountryId\n" +
+            "GROUP BY State.CountryId\n" +
+            "ORDER BY Country.CountryId;";
+
+    /**
+     * Connects to the database and returns Connection class instance.
+     *
+     * @return - Connection instance
+     */
     public Connection getConnection() {
         Connection c = null;
-        Statement stmt = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:resources/data/citystatecountry.db");
-            System.out.println("Opened database successfully");
-
+            Class.forName(driverName);
+            c = DriverManager.getConnection(databaseURL);
+            System.out.println("Opened the database connection successfully.");
         } catch (ClassNotFoundException cnf) {
-            System.out.println("could not load driver");
+            System.out.println("Could not load the driver class.");
         } catch (SQLException sqle) {
-            System.out.println("sql exception:" + sqle.getStackTrace());
+            System.out.println("Sql exception:" + sqle.getStackTrace());
         }
         return c;
     }
-    //TODO: Add a method (signature of your choosing) to query the db for population data by country
 
+    /**
+     * Returns an unordered list of countries and their populations in the form of a CountryDemographics object
+     * from the database.
+     *
+     * @return - a list of CountryDemographics object.
+     */
+    public List<CountryDemographics> getCountryPopulation() {
+        List<CountryDemographics> countryPopulationList = new ArrayList<CountryDemographics>();
+        Statement statement;
+        try {
+            Connection c = getConnection();
+            statement = c.createStatement();
+            String sql = sumPopulationQuery;
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                String countryName = rs.getString("CountryName");
+                Integer population = rs.getInt("population");
+
+                // Build the current countryDemographics object and add it to the list.
+                CountryDemographics countryDemographics = new CountryDemographics.Builder()
+                        .countryName(countryName)
+                        .population(population)
+                        .build();
+                countryPopulationList.add(countryDemographics);
+            }
+            rs.close();
+            statement.close();
+            c.close();
+        } catch (Exception e) {
+            System.out.println("sql exception:" + e.getMessage());
+        }
+        return countryPopulationList;
+    }
 }
